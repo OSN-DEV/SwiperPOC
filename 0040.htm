@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Swiper Test</title>
+  <link rel="stylesheet" href="swiper.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <style>
+    .swiper-container {
+      widows   : 100%;
+      height   : 80vh;
+      background: #EEEEEE;
+    }
+    html, body {
+      padding    : 0;
+      margin     : 0;
+    }
+  </style>
+
+  <script src="swiper.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      var dir = getParam('dir');
+      if (!dir) {
+        $('.swiper-container').removeAttr('dir');
+      } else {
+        $('.swiper-container').attr('dir', dir);
+      }
+
+      var swiper = new Swiper('.swiper-container');
+    });
+
+    // get query parameter value
+    function getParam(key) {
+      var url = window.location.href;
+      var name = key.replace(/[\[\]]/g, "\\$&"); 
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+      var results = regex.exec(url);
+      if (!results || !results[2]) {
+        return '';
+      }
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+  </script>
+</head>
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Slide 1</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+    </div>
+  </div>
+
+</body>
+</html>
