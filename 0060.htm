@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Swiper Test</title>
+  <link rel="stylesheet" href="swiper.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <style>
+    .swiper-container {
+      widows   : 100%;
+      height   : 80vh;
+      background: #EEEEEE;
+    }
+    html, body {
+      padding    : 0;
+      margin     : 0;
+    }
+  </style>
+
+  <script src="swiper.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
+
+  <script>
+    var swiper;
+    $(document).ready(function () {
+      var dir = getParam('dir');
+      if (!dir) {
+        $('.swiper-container').removeAttr('dir');
+      } else {
+        $('.swiper-container').attr('dir', dir);
+      }
+      swiper = new Swiper('.swiper-container',
+      {
+        init: false,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      }
+      );
+      $('.swiper-button-prev').hide();
+      $('.swiper-button-next').hide();
+
+      var hideTimerId = -1;
+      $('#toggle-navigation').on({
+        'click':function() {
+          clearTimeout(hideTimerId);
+          if (!$('.swiper-button-prev').css('display') || $('.swiper-button-prev').css('display') == 'block') {
+            setNavigationVidibility(false);
+          } else {
+            setNavigationVidibility(true);
+            hideTimerId = setTimeout(function() {
+              setNavigationVidibility(false);
+              hideTimerId = -1;
+              }, 3000);
+          }
+        }
+      });
+
+      registerAllEvent();
+      swiper.init();
+    });
+
+    function registerAllEvent() {
+      swiper.on('init', function(){ console.log('init'); });
+      swiper.on('beforeDestroy', function(){ console.log('beforeDestroy'); });
+      swiper.on('slideChange', function(){ console.log('slideChange'); });
+      swiper.on('slideChangeTransitionStart', function(){ console.log('slideChangeTransitionStart'); });
+      swiper.on('slideChangeTransitionEnd', function(){ console.log('slideChangeTransitionEnd'); });
+      swiper.on('slideNextTransitionStart', function(){ console.log('slideNextTransitionStart'); });
+      swiper.on('slideNextTransitionEnd', function(){ console.log('slideNextTransitionEnd'); });
+      swiper.on('slidePrevTransitionStart', function(){ console.log('slidePrevTransitionStart'); });
+      swiper.on('slidePrevTransitionEnd', function(){ console.log('slidePrevTransitionEnd'); });
+      swiper.on('transitionStart', function(){ console.log('transitionStart'); });
+      swiper.on('transitionEnd', function(){ console.log('transitionEnd'); });
+      swiper.on('touchStart', function(event){ console.log('touchStart'); });
+      swiper.on('touchMove', function(event){ console.log('touchMove'); });
+      swiper.on('touchMoveOpposite', function(event){ console.log('touchMoveOpposite'); });
+      swiper.on('sliderMove', function(event){ console.log('sliderMove'); });
+      swiper.on('touchEnd', function(event){ console.log('touchEnd'); });
+      swiper.on('click', function(event){ console.log('click'); });
+      swiper.on('tap', function(event){ console.log('tap'); });
+      swiper.on('doubleTap	', function(event){ console.log('doubleTap	'); });
+      swiper.on('imagesReady', function(){ console.log('imagesReady'); });
+      swiper.on('progress', function(event){ console.log('progress'); });
+      swiper.on('reachBeginning', function(){ console.log('reachBeginning'); });
+      swiper.on('reachEnd', function(){ console.log('reachEnd'); });
+      swiper.on('fromEdge', function(){ console.log('fromEdge'); });
+      swiper.on('setTranslate', function(translate){ console.log('setTranslate'); });
+      swiper.on('setTransition', function(transition){ console.log('setTransition'); });
+      swiper.on('resize', function(){ console.log('resize'); });
+    }
+
+    function setNavigationVidibility(visibility) {
+      if (visibility) {
+          $('.swiper-button-prev').show();
+          $('.swiper-button-next').show();
+      } else {
+          $('.swiper-button-prev').hide();
+          $('.swiper-button-next').hide();
+      }
+    }
+
+    // get query parameter value
+    function getParam(key) {
+      var url = window.location.href;
+      var name = key.replace(/[\[\]]/g, "\\$&"); 
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+      var results = regex.exec(url);
+      if (!results || !results[2]) {
+        return '';
+      }
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+  </script>
+</head>
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Slide 1</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+    </div>
+
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+  <button id="toggle-navigation">Toggle Navigation</button>
+</body>
+</html>
