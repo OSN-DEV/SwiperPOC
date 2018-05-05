@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Swiper Test</title>
+  <link rel="stylesheet" href="swiper.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <style>
+    .swiper-container {
+      widows   : 100%;
+      height   : 80vh;
+      background: #EEEEEE;
+    }
+    .swiper-slide {
+      text-align: center;
+    }
+    html, body {
+      padding    : 0;
+      margin     : 0;
+    }
+    img {
+      max-height: 100%;
+      height:auto;
+      overflow-x: auto;
+      z-index: 1;
+    }
+  </style>
+
+  <script src="swiper-03.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
+
+  <script>
+    var swiper;
+    var totalPage = 256;
+
+    $(document).ready(function () {
+      var dir = getParam('dir');
+      if (!dir) {
+        $('.swiper-container').removeAttr('dir');
+      } else {
+        $('.swiper-container').attr('dir', dir);
+      }
+      swiper = new Swiper('.swiper-container',
+      {
+        init: false,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          type: 'fraction',
+        },
+        zoom: {
+          maxRatio: 5,
+        },
+        preloadImages:false, 
+        lazy: {
+            loadPrevNext: true,
+        },
+      }
+      );
+      setNavigationVidibility(false);
+      registerAllEvent();
+
+      for(var i=1; i <= totalPage; i++) {
+        var tag = '<div class="swiper-slide">' + 
+                    '<div class="swiper-zoom-container">' + 
+                      '<img id="content'  + i + '" data-src="img/' + ('000' + i).slice(-3) + '.jpg"  class="swiper-lazy">' + 
+                      '<div class="swiper-lazy-preloader"></div>' + 
+                    '</div>' +
+                  '</div>';
+        $(".swiper-wrapper").append(tag);
+      }
+      swiper.update();
+      swiper.init();
+    });
+
+    var hideTimerId = -1;
+    function registerAllEvent() {
+      swiper.on('nextClick', function(){ 
+        console.log('nextClick');
+        hideNavigationDelay();
+      });
+      swiper.on('prevClick', function(){
+        console.log('prevClick');
+        hideNavigationDelay();
+      });
+      swiper.on('tap', function(e){
+        console.log('tap');
+        clearTimeout(hideTimerId);
+        if (!$('.swiper-button-prev').css('display') || $('.swiper-button-prev').css('display') == 'block') {
+          setNavigationVidibility(false);
+        } else {
+          setNavigationVidibility(true);
+          hideNavigationDelay();
+        }
+      });
+      swiper.on('click', function(){
+        console.log('click');
+       });
+    }
+
+    function hideNavigationDelay() {
+      clearTimeout(hideTimerId);
+      hideTimerId = setTimeout(function() {
+        setNavigationVidibility(false);
+        hideTimerId = -1;
+        }, 3000);
+    }
+
+    function setNavigationVidibility(visibility) {
+      if (visibility) {
+          $('.swiper-button-prev').show();
+          $('.swiper-button-next').show();
+          $('.swiper-pagination').show();
+      } else {
+          $('.swiper-button-prev').hide();
+          $('.swiper-button-next').hide();
+          $('.swiper-pagination').hide();
+      }
+    }
+
+    // get query parameter value
+    function getParam(key) {
+      var url = window.location.href;
+      var name = key.replace(/[\[\]]/g, "\\$&"); 
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+      var results = regex.exec(url);
+      if (!results || !results[2]) {
+        return '';
+      }
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+  </script>
+</head>
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+    </div>
+
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <button id="debug">deubg</button>
+  <script>
+  // $('#add-contents').on('click', function() {
+  //   for(var i=1; i <= totalPage; i++) {
+  //     var tag = '<div class="swiper-slide">' + 
+  //                 '<div class="swiper-zoom-container">' + 
+  //                   '<img id="content'  + i + '" data-src="img/' + ('000' + i).slice(-3) + '.jpg"  class="swiper-lazy">' + 
+  //                   '<div class="swiper-lazy-preloader"></div>' + 
+  //                 '</div>' +
+  //               '</div>';
+  //     $(".swiper-wrapper").append(tag);
+  //   }
+  //   swiper.update();
+  //   setNavigationVidibility(true);
+  // });
+  $('#debug').on('click', function() {
+  });
+</script>
+
+</body>
+</html>
