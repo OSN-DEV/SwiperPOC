@@ -21,6 +21,27 @@ $(document).ready(function () {
 	$('body').on('touchend', onTouchEnd);
 	scrollTo(0,  0 ) ;
 	currentPage = 1;
+
+	// var children = $('.main').children();
+	var children = $('body').children();
+	console.log(children.length);
+	var w = 0;
+	$.each(children, function(index, elm) {
+		w += elm.offsetWidth;
+		 console.log(elm.offsetLeft);
+		// console.log(elm.offsetWidth);
+		// console.log(w);
+		// if (window.innerWidth < w) {
+		// 	console.log(w);
+		// 	w = 0;
+		// }
+	}
+	);
+	console.log('----');
+	console.log($('.main').width());
+	console.log($('body').width());
+	console.log($(document).width() + ":" + window.innerWidth + ":" + totalPage);
+
 });
 
 var direction, position;
@@ -83,7 +104,8 @@ function moveToCurrent() {
 
 	// scrollTo(pos,  0) ;
 	// $('html,body').animate({scrollTop: pos}, 500);
-	$('html,body').animate({scrollLeft: pos}, 500);
+	$('html,body').animate({scrollLeft: pos}, 300);
+
 
 	// var w = $('body').width();
 	// var c = $('body').scrollLeft();
